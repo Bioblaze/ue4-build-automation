@@ -1,0 +1,30 @@
+{
+    "communicators" : [
+        {
+            "type": "winrm",
+            "winrm_username": "",
+            "winrm_password": ""
+        }
+    ],
+    "builders" : [
+        {
+            "type": "amazon-ebs",
+            "access_key": "",
+            "secret_key": "",
+            "region": "us-east-1",
+            "source_ami": "ami-02a172b0393352993",
+            "ami_name": "windows-ue4-build-{{timestamp}}"
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "powershell",
+            "inline": ["Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))"]
+        },
+        {
+            "type": "file",
+            "source": "~/.ssh/ue4-key",
+            "destination": "C:\\Users\\Administrator\\.ssh\\"
+        }
+    ]
+}
